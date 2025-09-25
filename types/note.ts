@@ -18,5 +18,5 @@ export enum NoteTag {
 export interface NoteFormValues {
   title: string;
   content: string;
-  tag: string;
+  tag: NoteTag;
 }

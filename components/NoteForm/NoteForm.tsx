@@ -4,7 +4,7 @@ import css from "./NoteForm.module.css";
 import { createNote } from "@/lib/api";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { NoteFormValues } from "@/types/note";
+import { NoteTag, type NoteFormValues } from "@/types/note";
 
 interface NoteFormProps {
   onClose: () => void;
@@ -13,7 +13,7 @@ interface NoteFormProps {
 const initialValues: NoteFormValues = {
   title: "",
   content: "",
-  tag: "Todo",
+  tag: NoteTag.Todo,
 };
 
 const NoteFormSchema = Yup.object().shape({
