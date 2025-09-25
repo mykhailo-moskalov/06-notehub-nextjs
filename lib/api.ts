@@ -5,6 +5,9 @@ interface NotesHTTPResponse {
   notes: Note[];
   totalPages: number;
 }
+interface SingleNoteHTTPResponse {
+  note: Note;
+}
 
 interface Options {
   params: {
@@ -16,8 +19,13 @@ interface Options {
     Authorization: string;
   };
 }
+interface SingleOptions {
+  headers: {
+    Authorization: string;
+  };
+}
 
-const NOTEHUB_TOKEN = import.meta.env.VITE_NOTEHUB_TOKEN;
+const NOTEHUB_TOKEN = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 axios.defaults.baseURL = "https://notehub-public.goit.study/api";
 
 export const fetchNotes = async (
@@ -38,6 +46,18 @@ export const fetchNotes = async (
   const resp = await axios.get<NotesHTTPResponse>("/notes", options);
 
   return resp.data;
+};
+
+export const fetchSingleNote = async (id: string): Promise<Note> => {
+  const options: SingleOptions = {
+    headers: {
+      Authorization: `Bearer ${NOTEHUB_TOKEN}`,
+    },
+  };
+
+  const resp = await axios.get<SingleNoteHTTPResponse>(`/notes/${id}`, options);
+
+  return resp.data.note;
 };
 
 export const createNote = async ({

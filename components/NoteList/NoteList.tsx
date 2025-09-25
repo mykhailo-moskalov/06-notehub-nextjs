@@ -1,8 +1,9 @@
-import type { Note } from "../../types/note";
+import type { Note } from "@/types/note";
 import css from "./NoteList.module.css";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteNote } from "../../services/noteService";
+import { deleteNote } from "@/lib/api";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 interface NoteListProps {
   notes: Note[];
@@ -28,6 +29,9 @@ export default function NoteList({ notes }: NoteListProps) {
           <p className={css.content}>{n.content}</p>
           <div className={css.footer}>
             <span className={css.tag}>{n.tag}</span>
+            <Link href={`/notes/${n.id}`} className={css.details}>
+              View details
+            </Link>
             <button
               className={css.button}
               onClick={() => {
