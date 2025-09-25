@@ -50,9 +50,9 @@ export default function NotesClient({ query, page }: Props) {
       <div className={css.app}>
         <div className={css.toolbar}>
           <SearchBox
-            defValue={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
+            value={search}
+            onChange={(v) => {
+              setSearch(v);
               setCurrentPage(1);
             }}
           />
