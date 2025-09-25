@@ -5,9 +5,6 @@ interface NotesHTTPResponse {
   notes: Note[];
   totalPages: number;
 }
-interface SingleNoteHTTPResponse {
-  note: Note;
-}
 
 interface Options {
   params: {
@@ -15,11 +12,6 @@ interface Options {
     page: number;
     perPage: number;
   };
-  headers: {
-    Authorization: string;
-  };
-}
-interface SingleOptions {
   headers: {
     Authorization: string;
   };
@@ -49,15 +41,13 @@ export const fetchNotes = async (
 };
 
 export const fetchSingleNote = async (id: string): Promise<Note> => {
-  const options: SingleOptions = {
+  const resp = await axios.get<Note>(`/notes/${id}`, {
     headers: {
       Authorization: `Bearer ${NOTEHUB_TOKEN}`,
     },
-  };
+  });
 
-  const resp = await axios.get<SingleNoteHTTPResponse>(`/notes/${id}`, options);
-
-  return resp.data.note;
+  return resp.data;
 };
 
 export const createNote = async ({
