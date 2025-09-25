@@ -6,17 +6,6 @@ interface NotesHTTPResponse {
   totalPages: number;
 }
 
-interface Options {
-  params: {
-    search: string;
-    page: number;
-    perPage: number;
-  };
-  headers: {
-    Authorization: string;
-  };
-}
-
 const NOTEHUB_TOKEN = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 axios.defaults.baseURL = "https://notehub-public.goit.study/api";
 
@@ -24,7 +13,7 @@ export const fetchNotes = async (
   search: string,
   page: number
 ): Promise<NotesHTTPResponse> => {
-  const options: Options = {
+  const resp = await axios.get<NotesHTTPResponse>("/notes", {
     params: {
       search: search,
       page: page,
@@ -33,9 +22,7 @@ export const fetchNotes = async (
     headers: {
       Authorization: `Bearer ${NOTEHUB_TOKEN}`,
     },
-  };
-
-  const resp = await axios.get<NotesHTTPResponse>("/notes", options);
+  });
 
   return resp.data;
 };
@@ -54,10 +41,10 @@ export const createNote = async ({
   title,
   content,
   tag,
-}: NoteFormValues): Promise<NoteFormValues> => {
+}: NoteFormValues): Promise<Note> => {
   const newNote = { title, content, tag };
 
-  const resp = await axios.post<NoteFormValues>("/notes", newNote, {
+  const resp = await axios.post<Note>("/notes", newNote, {
     headers: {
       Authorization: `Bearer ${NOTEHUB_TOKEN}`,
     },
